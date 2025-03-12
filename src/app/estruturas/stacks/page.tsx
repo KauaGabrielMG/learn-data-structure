@@ -8,9 +8,8 @@ import {
   Layers,
   PlayCircle,
   BookOpenCheck,
-  Flask,
-  GraduationCap,
   Lightbulb,
+  Zap,
 } from 'lucide-react';
 import {
   SidebarInset,
@@ -131,7 +130,7 @@ export default function StackPage() {
                   value="sandbox"
                   className="flex items-center gap-2"
                 >
-                  <Flask className="h-4 w-4" /> Sandbox
+                  <Zap className="h-4 w-4" /> Sandbox
                 </TabsTrigger>
                 <TabsTrigger
                   value="applications"
