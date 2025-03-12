@@ -32,7 +32,6 @@ import { Button } from '@/components/ui/button';
 // Componentes de seções
 import StackTutorial from '@/components/stack/stack-tutorial';
 import StackVisualization from '@/components/stack/stack-visualization';
-import StackOperations from '@/components/stack/stack-operations';
 import StackImplementation from '@/components/stack/stack-implementation';
 import StackSandbox from '@/components/stack/stack-sandbox';
 import StackExercises from '@/components/stack/stack-exercises';

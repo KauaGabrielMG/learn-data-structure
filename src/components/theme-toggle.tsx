@@ -2,19 +2,19 @@
 
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAppContext } from '@/contexts/AppContext';
+import { useTheme } from 'next-themes';
 
 export function ThemeToggle() {
-  const { isDarkMode, toggleDarkMode } = useAppContext();
+  const { theme, setTheme } = useTheme();
 
   return (
     <Button
       variant="outline"
       size="icon"
-      onClick={toggleDarkMode}
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       aria-label="Alternar tema"
     >
-      {isDarkMode ? (
+      {theme === 'dark' ? (
         <Sun className="h-[1.2rem] w-[1.2rem]" />
       ) : (
         <Moon className="h-[1.2rem] w-[1.2rem]" />

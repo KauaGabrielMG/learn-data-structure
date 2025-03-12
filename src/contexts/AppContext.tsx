@@ -1,6 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
+import { useTheme } from 'next-themes';
 
 // Interface para estruturas de dados
 interface DataStructure {
@@ -114,19 +121,23 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 // Componente provedor que envolverá nossa aplicação
 export function AppProvider({ children }: { children: ReactNode }) {
   const [currentStructure, setCurrentStructure] = useState<string | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [progress, setProgress] = useState<AppContextType['progress']>({});
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
 
+  // Usar o useTheme para integrar com next-themes
+  const { theme, setTheme } = useTheme();
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  // Sincronizar o estado isDarkMode com o tema atual
+  useEffect(() => {
+    setIsDarkMode(theme === 'dark');
+  }, [theme]);
+
   // Função para alternar modo escuro/claro
   const toggleDarkMode = () => {
-    setIsDarkMode((prev) => !prev);
-    // Podemos adicionar lógica para persistir a preferência no localStorage
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    setIsDarkMode(newTheme === 'dark');
   };
 
   // Função para marcar uma estrutura como concluída
