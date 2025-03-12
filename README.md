@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aprendendo Estruturas de Dados
 
-## Getting Started
+Este projeto foi criado para facilitar o aprendizado de estruturas de dados através de visualizações interativas e exemplos práticos. Construído com Next.js, o projeto oferece uma experiência educativa prática para compreender melhor os conceitos fundamentais de estruturas de dados.
 
-First, run the development server:
+## 📚 Estruturas de Dados Abordadas
+
+- **Listas** (Arrays, Listas Encadeadas)
+- **Pilhas e Filas**
+- **Árvores** (Binária, AVL, Rubro-Negra)
+- **Grafos** e algoritmos relacionados
+- **Tabelas Hash**
+- **Heaps**
+- **Conjuntos e Mapas**
+
+## 🎯 Objetivos
+
+- Visualizar como as estruturas de dados funcionam internamente
+- Compreender operações básicas (inserção, remoção, busca)
+- Analisar a complexidade de tempo e espaço
+- Praticar a implementação de estruturas de dados em JavaScript/TypeScript
+
+## 📋 Funcionalidades
+
+- Visualizações interativas das estruturas de dados
+- Exemplos de código para cada estrutura
+- Exercícios práticos
+- Comparação de desempenho entre diferentes estruturas
+
+## 🚀 Como Começar
+
+Primeiro, clone o repositório e instale as dependências:
+
+```bash
+git clone https://github.com/seu-usuario/learn-data-structure-2.git
+cd learn-data-structure-2
+npm install
+```
+
+Em seguida, execute o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
+# ou
 pnpm dev
-# or
+# ou
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧩 Estrutura do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+/app
+  /components         # Componentes reutilizáveis
+  /data-structures    # Implementações de estruturas de dados
+  /visualizations     # Componentes de visualização
+  /exercises          # Exercícios práticos
+  /pages              # Páginas principais da aplicação
+```
 
-## Learn More
+## 🛠️ Tecnologias Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js](https://nextjs.org/) - Framework React
+- [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
+- [React Flow](https://reactflow.dev/) - Para visualizações de grafos e árvores
+- [Tailwind CSS](https://tailwindcss.com/) - Para estilização
+- [Prism.js](https://prismjs.com/) - Para highlight de código
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📖 Recursos para Estudo Adicional
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [Visualgo](https://visualgo.net/) - Visualização de algoritmos e estruturas de dados
+- [GeeksforGeeks](https://www.geeksforgeeks.org/) - Artigos detalhados sobre estruturas de dados
+- [Cracking the Coding Interview](http://www.crackingthecodinginterview.com/) - Livro essencial para entrevistas técnicas
 
-## Deploy on Vercel
+## 👥 Contribuições
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para mais detalhes.
