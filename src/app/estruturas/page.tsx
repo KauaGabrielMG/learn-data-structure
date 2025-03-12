@@ -1,60 +1,41 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+'use client';
 
-const dataStructures = [
-  {
-    id: 'queues',
-    title: 'Filas',
-    description:
-      'Estrutura de dados linear que segue o princípio FIFO (First In, First Out).',
-    icon: '📋',
-    complexity: 'Básico',
-    lessons: 5,
-  },
-  {
-    id: 'stacks',
-    title: 'Pilhas',
-    description:
-      'Estrutura de dados linear que segue o princípio LIFO (Last In, First Out).',
-    icon: '📚',
-    complexity: 'Básico',
-    lessons: 4,
-  },
-  // ...outros itens
-];
+import { useAppContext } from '@/contexts/AppContext';
+import { DataStructureGrid } from '@/components/data-structure-grid';
+import { RecentStructures } from '@/components/recent-structures';
+import { useEffect } from 'react';
+import { Separator } from '@/components/ui/separator';
 
-export default function EstruturasPage() {
+export default function EstruturasDeDados() {
+  const { setCurrentStructure, progress } = useAppContext();
+
+  useEffect(() => {
+    setCurrentStructure('');
+  }, [setCurrentStructure]);
+
+  // Contagem de estruturas visitadas
+  const visitedCount = Object.keys(progress).length;
+  const hasVisited = visitedCount > 0;
+
   return (
     <div className="container py-10">
-      <h1 className="text-3xl font-bold mb-6">
-        Escolha uma Estrutura de Dados
-      </h1>
+      <h1 className="text-4xl font-bold mb-2">Estruturas de Dados</h1>
+      <p className="text-lg text-muted-foreground mb-6">
+        Explore nossa coleção de estruturas de dados com visualizações
+        interativas.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dataStructures.map((structure) => (
-          <Card key={structure.id}>
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{structure.icon}</span>
-                <CardTitle>{structure.title}</CardTitle>
-              </div>
-              <CardDescription>{structure.description}</CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Link href={`/estruturas/${structure.id}`} className="w-full">
-                <Button className="w-full">Explorar</Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+      {hasVisited && (
+        <>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <RecentStructures />
+          </div>
+          <Separator className="my-8" />
+        </>
+      )}
+
+      <h2 className="text-2xl font-semibold mb-6">Todas as estruturas</h2>
+      <DataStructureGrid />
     </div>
   );
 }

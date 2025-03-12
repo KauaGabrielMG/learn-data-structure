@@ -20,6 +20,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export const metadata: Metadata = {
   title: 'Pilhas (LIFO) | DataStructure Learn',
@@ -31,37 +32,45 @@ export default function StackPage() {
   return (
     <div className="container flex gap-4 mx-auto w-full">
       <SidebarProvider className="container flex justify-between w-full">
-        <AppSidebar className="relative top-4" />
+        <AppSidebar className="relative" />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/" className="flex items-center gap-1">
-                    <Home className="h-3.5 w-3.5" />
-                    <span>Início</span>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/estruturas">
-                    Estruturas de Dados
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="flex items-center gap-1">
-                    <Layers className="h-3.5 w-3.5" />
-                    <span>Pilhas (LIFO)</span>
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+          <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b px-4">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+              />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink
+                      href="/"
+                      className="flex items-center gap-1"
+                    >
+                      <Home className="h-3.5 w-3.5" />
+                      <span>Início</span>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/estruturas">
+                      Estruturas de Dados
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="flex items-center gap-1">
+                      <Layers className="h-3.5 w-3.5" />
+                      <span>Pilhas (LIFO)</span>
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+
+            {/* Botão para alternar tema */}
+            <ThemeToggle />
           </header>
 
           {/* Adicionando navegação rápida para tópicos sobre pilhas */}

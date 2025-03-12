@@ -1,9 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -17,65 +18,12 @@ import {
   ArrowRight,
   Search,
   BarChart3,
+  Activity,
 } from 'lucide-react';
-
-// Array de estruturas de dados
-const dataStructures = [
-  {
-    id: 'queues',
-    title: 'Filas',
-    description:
-      'Estrutura de dados linear que segue o princípio FIFO (First In, First Out).',
-    icon: '📋',
-    complexity: 'Básico',
-    lessons: 5,
-  },
-  {
-    id: 'stacks',
-    title: 'Pilhas',
-    description:
-      'Estrutura de dados linear que segue o princípio LIFO (Last In, First Out).',
-    icon: '📚',
-    complexity: 'Básico',
-    lessons: 4,
-  },
-  {
-    id: 'lists',
-    title: 'Listas',
-    description:
-      'Estrutura de dados linear que permite armazenar uma coleção de elementos.',
-    icon: '📝',
-    complexity: 'Básico',
-    lessons: 6,
-  },
-  {
-    id: 'trees',
-    title: 'Árvores',
-    description:
-      'Estrutura de dados hierárquica não-linear com relação pai-filho entre nós.',
-    icon: '🌳',
-    complexity: 'Intermediário',
-    lessons: 7,
-  },
-  {
-    id: 'graphs',
-    title: 'Grafos',
-    description:
-      'Estrutura de dados não-linear que consiste em vértices e arestas para conectá-los.',
-    icon: '🕸️',
-    complexity: 'Avançado',
-    lessons: 8,
-  },
-  {
-    id: 'hash-tables',
-    title: 'Tabelas Hash',
-    description:
-      'Estrutura de dados que implementa mapeamento eficiente de chave-valor.',
-    icon: '🔑',
-    complexity: 'Intermediário',
-    lessons: 5,
-  },
-];
+import { DataStructureGrid } from '@/components/data-structure-grid';
+import { RecentStructures } from '@/components/recent-structures';
+import { useAppContext } from '@/contexts/AppContext';
+import { useEffect } from 'react';
 
 // Features do sistema
 const features = [
@@ -102,6 +50,23 @@ const features = [
 ];
 
 export default function Home() {
+  const { dataStructures, progress, setCurrentStructure } = useAppContext();
+
+  // Reseta a estrutura atual ao carregar a página inicial
+  useEffect(() => {
+    setCurrentStructure('');
+  }, [setCurrentStructure]);
+
+  // Calcula estatísticas do progresso
+  const completedStructures = Object.values(progress).filter(
+    (item) => item.completed,
+  ).length;
+  const totalStructures = dataStructures.length;
+  const progressPercentage =
+    totalStructures > 0
+      ? Math.round((completedStructures / totalStructures) * 100)
+      : 0;
+
   return (
     <>
       {/* Hero Section */}
@@ -131,10 +96,29 @@ export default function Home() {
                   </Button>
                 </Link>
               </div>
+
+              {Object.keys(progress).length > 0 && (
+                <div className="bg-background/20 border border-primary-foreground/10 rounded-lg p-4 mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="font-medium text-primary-foreground">
+                      Seu progresso
+                    </div>
+                    <div className="text-sm">
+                      {completedStructures} de {totalStructures} estruturas
+                    </div>
+                  </div>
+                  <div className="w-full bg-background/30 h-2 rounded-full overflow-hidden">
+                    <div
+                      className="bg-background h-full rounded-full"
+                      style={{ width: `${progressPercentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="flex items-center justify-center">
               <div className="relative aspect-square w-full max-w-md overflow-hidden rounded-lg border bg-background/50 backdrop-blur md:aspect-video lg:aspect-square">
-                {/* Aqui poderíamos ter uma imagem ou animação representativa */}
+                {/* Aqui mostramos as estruturas de dados mais recentes do contexto */}
                 <div className="flex h-full items-center justify-center bg-muted/30">
                   <div className="grid grid-cols-2 gap-4 p-4">
                     {dataStructures.slice(0, 4).map((structure, i) => (
@@ -146,6 +130,11 @@ export default function Home() {
                         <div className="text-sm font-medium text-black">
                           {structure.title}
                         </div>
+                        {progress[structure.id]?.completed && (
+                          <Badge variant="secondary" className="mt-2">
+                            Concluído
+                          </Badge>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -155,6 +144,62 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Recent Structures Section - Appears if user has visited structures */}
+      {Object.keys(progress).length > 0 && (
+        <section className="w-full py-8 bg-muted/30">
+          <div className="container px-4 md:px-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Activity className="h-5 w-5 text-primary" />
+              <h2 className="text-2xl font-bold">Sua atividade recente</h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <RecentStructures />
+              <Card className="md:col-span-2">
+                <CardHeader>
+                  <CardTitle>Seu progresso</CardTitle>
+                  <CardDescription>
+                    Continue de onde parou ou explore novas estruturas
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between text-sm">
+                      <span>Progresso total:</span>
+                      <span>{progressPercentage}%</span>
+                    </div>
+                    <div className="w-full bg-muted h-2.5 rounded-full">
+                      <div
+                        className="bg-primary h-full rounded-full"
+                        style={{ width: `${progressPercentage}%` }}
+                      ></div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 mt-4">
+                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                        <span className="text-2xl font-bold text-primary">
+                          {completedStructures}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          Estruturas concluídas
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-center p-3 bg-muted/50 rounded-lg">
+                        <span className="text-2xl font-bold text-primary">
+                          {totalStructures - completedStructures}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          Estruturas restantes
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 flex items-center justify-center flex-col">
@@ -188,7 +233,7 @@ export default function Home() {
 
       <Separator className="my-4" />
 
-      {/* Data Structures Cards */}
+      {/* Data Structures Cards - Using DataStructureGrid component */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/40 flex items-center justify-center">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -203,49 +248,8 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 py-12 md:grid-cols-2 lg:grid-cols-3">
-            {dataStructures.map((structure) => (
-              <Card
-                key={structure.id}
-                className="group overflow-hidden hover:border-primary transition-colors"
-              >
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">
-                      {structure.icon}
-                    </div>
-                    <Badge
-                      variant={
-                        structure.complexity === 'Básico'
-                          ? 'default'
-                          : structure.complexity === 'Intermediário'
-                          ? 'secondary'
-                          : 'outline'
-                      }
-                    >
-                      {structure.complexity}
-                    </Badge>
-                  </div>
-                  <CardTitle className="group-hover:text-primary transition-colors">
-                    {structure.title}
-                  </CardTitle>
-                  <CardDescription>{structure.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{structure.lessons} lições</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Link href={`/estruturas/${structure.id}`} className="w-full">
-                    <Button className="w-full" variant="outline">
-                      Explorar {structure.title}
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
+          <div className="mx-auto max-w-6xl py-12">
+            <DataStructureGrid />
           </div>
         </div>
       </section>
