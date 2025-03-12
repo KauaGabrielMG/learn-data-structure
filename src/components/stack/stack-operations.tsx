@@ -114,14 +114,14 @@ export default function StackOperations() {
 
       <div className="flex flex-col space-y-4">
         <div className="p-4 bg-muted/30 rounded-lg">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2">
-            <div className="flex items-start gap-2">
-              <div className="flex gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
+            <div className="flex items-start gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap">
                 <Select
                   value={operationType}
                   onValueChange={(value) => setOperationType(value)}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-40 sm:w-[180px]">
                     <SelectValue placeholder="Selecione a operação" />
                   </SelectTrigger>
                   <SelectContent>

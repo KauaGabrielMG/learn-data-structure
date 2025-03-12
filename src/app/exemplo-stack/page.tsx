@@ -45,7 +45,7 @@ export default function ExemploStackOperationsPage() {
           </h2>
           <ul className="list-disc pl-5 space-y-1">
             <li>Utilizadas em algoritmos de busca em profundidade</li>
-            <li>Implementação de função "desfazer" em editores</li>
+            <li>Implementação de função &quot;desfazer&quot; em editores</li>
             <li>Avaliação de expressões matemáticas</li>
             <li>Validação de sintaxe (como parênteses equilibrados)</li>
           </ul>

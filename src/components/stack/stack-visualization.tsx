@@ -15,7 +15,7 @@ import { Download } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function StackVisualization() {
-  const [setMode] = useState<'interativo' | 'animado'>('interativo');
+  const [mode, setMode] = useState<'interativo' | 'animado'>('interativo');
 
   // Função para baixar um exemplo de código
   const downloadExample = () => {
@@ -86,7 +86,7 @@ export default function StackVisualization() {
     <div className="space-y-6">
       <Tabs
         defaultValue="interativo"
-        onValueChange={(value) => setMode(value as any)}
+        onValueChange={(value) => setMode(value as 'interativo' | 'animado')}
       >
         <TabsList className="mb-4">
           <TabsTrigger value="interativo">Modo Interativo</TabsTrigger>
@@ -94,7 +94,7 @@ export default function StackVisualization() {
         </TabsList>
 
         <TabsContent value="interativo">
-          <div className="grid md:grid-cols-[2fr_1fr] gap-6">
+          <div className="grid md:grid-cols-1 gap-6">
             <Card className="shadow-sm">
               <CardHeader>
                 <CardTitle>Pratique as operações</CardTitle>

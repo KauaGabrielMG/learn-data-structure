@@ -101,40 +101,40 @@ export default function StackPage() {
             <Separator className="my-6" />
 
             <Tabs defaultValue="tutorial" className="w-full">
-              <TabsList className="grid grid-cols-6 w-full mb-8">
+              <TabsList className="flex flex-col  min-[440]:grid min-[440]:grid-cols-3 lg:grid-cols-6  w-full mb-8">
                 <TabsTrigger
                   value="tutorial"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <BookOpen className="h-4 w-4" /> Tutorial
                 </TabsTrigger>
                 <TabsTrigger
                   value="visualization"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <PlayCircle className="h-4 w-4" /> Visualização
                 </TabsTrigger>
                 <TabsTrigger
                   value="practice"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <BookOpenCheck className="h-4 w-4" /> Atividades
                 </TabsTrigger>
                 <TabsTrigger
                   value="implementation"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <Code className="h-4 w-4" /> Implementação
                 </TabsTrigger>
                 <TabsTrigger
                   value="sandbox"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <Zap className="h-4 w-4" /> Sandbox
                 </TabsTrigger>
                 <TabsTrigger
                   value="applications"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full"
                 >
                   <Lightbulb className="h-4 w-4" /> Aplicações
                 </TabsTrigger>
