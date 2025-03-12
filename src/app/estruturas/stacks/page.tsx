@@ -57,7 +57,7 @@ export default function StackPage() {
               />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem>
+                  <BreadcrumbItem className="hidden md:block">
                     <BreadcrumbLink
                       href="/"
                       className="flex items-center gap-1"
@@ -66,7 +66,7 @@ export default function StackPage() {
                       <span>Início</span>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  <BreadcrumbSeparator className="hidden md:block" />
                   <BreadcrumbItem>
                     <BreadcrumbLink href="/estruturas">
                       Estruturas de Dados
