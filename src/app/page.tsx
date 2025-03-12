@@ -15,7 +15,6 @@ import {
   ListChecks,
   BookOpen,
   ArrowRight,
-  ExternalLink,
   Search,
   BarChart3,
 } from 'lucide-react';
@@ -126,12 +125,11 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button size="lg" className="gap-1.5">
-                  Começar agora <ArrowRight className="h-4 w-4" />
-                </Button>
-                <Button variant="secondary" size="lg" className="gap-1.5">
-                  Ver documentação <ExternalLink className="h-4 w-4" />
-                </Button>
+                <Link href="/estruturas">
+                  <Button size="lg" className="gap-1.5">
+                    Começar agora <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
             </div>
             <div className="flex items-center justify-center">
@@ -145,7 +143,7 @@ export default function Home() {
                         className="flex flex-col items-center justify-center rounded-md bg-background p-4 shadow-sm"
                       >
                         <div className="text-3xl mb-2">{structure.icon}</div>
-                        <div className="text-sm font-medium">
+                        <div className="text-sm font-medium text-black">
                           {structure.title}
                         </div>
                       </div>
