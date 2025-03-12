@@ -15,7 +15,7 @@ import { Download } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function StackVisualization() {
-  const [mode, setMode] = useState<'interativo' | 'animado'>('interativo');
+  const [setMode] = useState<'interativo' | 'animado'>('interativo');
 
   // Função para baixar um exemplo de código
   const downloadExample = () => {
