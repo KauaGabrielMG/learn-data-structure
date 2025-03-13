@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function QueuePage() {
   return (
-    <div className="container py-10">
+    <div className="container py-10 mx-auto">
       <div className="flex flex-col gap-2">
         <h1 className="text-4xl font-bold tracking-tight">Filas (FIFO)</h1>
         <p className="text-xl text-muted-foreground">

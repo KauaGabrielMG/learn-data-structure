@@ -42,7 +42,7 @@ interface AppContextType {
 // Lista de estruturas de dados
 const dataStructures: DataStructure[] = [
   {
-    id: 'listas',
+    id: 'lists',
     title: 'Listas',
     description:
       'Estrutura de dados que organiza elementos de forma sequencial com operações de inserção e remoção flexíveis.',
