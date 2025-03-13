@@ -45,8 +45,8 @@ export const metadata: Metadata = {
 export default function StackPage() {
   return (
     <div className="container flex gap-4 mx-auto w-full">
-      <SidebarProvider className="container flex justify-between w-full">
-        <AppSidebar className="relative" />
+      <SidebarProvider className="container flex justify-between w-full relative">
+        <AppSidebar className=" absolute" />
         <SidebarInset>
           <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b px-4">
             <div className="flex items-center gap-2">
