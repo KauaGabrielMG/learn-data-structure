@@ -42,13 +42,13 @@ interface AppContextType {
 // Lista de estruturas de dados
 const dataStructures: DataStructure[] = [
   {
-    id: 'arrays',
-    title: 'Arrays e Vetores',
+    id: 'listas',
+    title: 'Listas',
     description:
-      'Estrutura de dados linear para armazenar elementos do mesmo tipo em posições contíguas.',
-    icon: '📊',
+      'Estrutura de dados que organiza elementos de forma sequencial com operações de inserção e remoção flexíveis.',
+    icon: '📝',
     complexity: 'Básico',
-    lessons: 4,
+    lessons: 5,
   },
   {
     id: 'stacks',
@@ -67,6 +67,15 @@ const dataStructures: DataStructure[] = [
     icon: '📋',
     complexity: 'Básico',
     lessons: 5,
+  },
+  {
+    id: 'arrays',
+    title: 'Arrays e Vetores',
+    description:
+      'Estrutura de dados linear para armazenar elementos do mesmo tipo em posições contíguas.',
+    icon: '📊',
+    complexity: 'Básico',
+    lessons: 4,
   },
   {
     id: 'listas-ligadas',

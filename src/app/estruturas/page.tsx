@@ -18,7 +18,7 @@ export default function EstruturasDeDados() {
   const hasVisited = visitedCount > 0;
 
   return (
-    <div className="container py-10">
+    <div className="container flex justify-center items-center flex-col py-10 mx-auto">
       <h1 className="text-4xl font-bold mb-2">Estruturas de Dados</h1>
       <p className="text-lg text-muted-foreground mb-6">
         Explore nossa coleção de estruturas de dados com visualizações
