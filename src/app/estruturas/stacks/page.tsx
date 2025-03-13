@@ -228,7 +228,7 @@ export default function StackPage() {
 
                     <div>
                       <h3 className="text-xl font-medium mb-2">
-                        Implementação de "Desfazer" em editores
+                        Implementação de &quot;Desfazer&quot; em editores
                       </h3>
                       <p className="text-muted-foreground">
                         Editores de texto usam pilhas para implementar a
