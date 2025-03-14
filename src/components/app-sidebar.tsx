@@ -93,7 +93,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="font-medium">
                     Aprendendo estrutura de dados
                   </span>
-                  <span className="">v1.0.0</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -139,21 +138,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <SidebarMenuSubItem>
                         <SidebarMenuSubButton asChild>
                           <Link href={`/estruturas/${structure.id}`}>
-                            Ver conteúdo completo
+                            Tutorial
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
                         <SidebarMenuSubButton asChild>
                           <Link href={`/estruturas/${structure.id}#operacoes`}>
-                            Operações básicas
+                            Visualização
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
                         <SidebarMenuSubButton asChild>
                           <Link href={`/estruturas/${structure.id}#pratica`}>
-                            Visualização e prática
+                            Atividades
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild>
+                          <Link href={`/estruturas/${structure.id}#operacoes`}>
+                            Implementação
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild>
+                          <Link href={`/estruturas/${structure.id}#operacoes`}>
+                            Sandbox
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton asChild>
+                          <Link href={`/estruturas/${structure.id}#operacoes`}>
+                            Aplicações
                           </Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>

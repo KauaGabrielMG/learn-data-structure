@@ -260,14 +260,6 @@ export default function StackPage() {
                         computadores.
                       </p>
                     </div>
-
-                    <div className="flex justify-center mt-4">
-                      <Button>
-                        <Link href="/exercicios/pilhas-aplicacoes">
-                          Ver exercícios sobre aplicações
-                        </Link>
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </TabsContent>
