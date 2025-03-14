@@ -25,9 +25,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import Link from 'next/link';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
 
 // Componentes de seções
 import StackTutorial from '@/components/stack/stack-tutorial';
