@@ -23,8 +23,6 @@ interface DataStructure {
 interface AppContextType {
   currentStructure: string | null;
   setCurrentStructure: (structure: string) => void;
-  isDarkMode: boolean;
-  toggleDarkMode: () => void;
   progress: {
     [key: string]: {
       completed: boolean;
@@ -107,20 +105,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
 
   // Usar o useTheme para integrar com next-themes
-  const { theme, setTheme } = useTheme();
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const { setTheme } = useTheme();
 
-  // Sincronizar o estado isDarkMode com o tema atual
+  // Forçar o tema claro sempre
   useEffect(() => {
-    setIsDarkMode(theme === 'dark');
-  }, [theme]);
-
-  // Função para alternar modo escuro/claro
-  const toggleDarkMode = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    setIsDarkMode(newTheme === 'dark');
-  };
+    setTheme('light');
+  }, [setTheme]);
 
   // Função para marcar uma estrutura como concluída
   const markAsCompleted = (structureId: string) => {
@@ -158,8 +148,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const value = {
     currentStructure,
     setCurrentStructure,
-    isDarkMode,
-    toggleDarkMode,
     progress,
     markAsCompleted,
     updateLastVisited,
