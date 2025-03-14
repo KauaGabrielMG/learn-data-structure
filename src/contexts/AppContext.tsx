@@ -69,24 +69,6 @@ const dataStructures: DataStructure[] = [
     lessons: 5,
   },
   {
-    id: 'arrays',
-    title: 'Arrays e Vetores',
-    description:
-      'Estrutura de dados linear para armazenar elementos do mesmo tipo em posições contíguas.',
-    icon: '📊',
-    complexity: 'Básico',
-    lessons: 4,
-  },
-  {
-    id: 'listas-ligadas',
-    title: 'Listas Ligadas',
-    description:
-      'Coleção de elementos dispostos em uma sequência com ponteiros para outros elementos.',
-    icon: '🔗',
-    complexity: 'Intermediário',
-    lessons: 6,
-  },
-  {
     id: 'arvores',
     title: 'Árvores',
     description:
@@ -94,15 +76,6 @@ const dataStructures: DataStructure[] = [
     icon: '🌳',
     complexity: 'Intermediário',
     lessons: 8,
-  },
-  {
-    id: 'grafos',
-    title: 'Grafos',
-    description:
-      'Conjunto de vértices conectados por arestas, representando relações entre objetos.',
-    icon: '🕸️',
-    complexity: 'Avançado',
-    lessons: 10,
   },
   {
     id: 'tabelas-hash',
@@ -114,13 +87,13 @@ const dataStructures: DataStructure[] = [
     lessons: 7,
   },
   {
-    id: 'heaps',
-    title: 'Heaps',
+    id: 'grafos',
+    title: 'Grafos',
     description:
-      'Árvore especial onde cada nó é maior/menor que seus filhos (max/min heap).',
-    icon: '🔺',
-    complexity: 'Intermediário',
-    lessons: 5,
+      'Conjunto de vértices conectados por arestas, representando relações entre objetos.',
+    icon: '🕸️',
+    complexity: 'Avançado',
+    lessons: 10,
   },
 ];
 
