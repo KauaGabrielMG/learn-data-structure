@@ -25,7 +25,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 // Componentes de seções
 import StackTutorial from '@/components/stack/stack-tutorial';
@@ -80,8 +79,6 @@ export default function StackPage() {
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
-
-            <ThemeToggle />
           </header>
 
           <div className="container py-10 px-4 sm:px-10">
