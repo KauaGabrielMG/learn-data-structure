@@ -4,13 +4,8 @@ Este projeto foi criado para facilitar o aprendizado de estruturas de dados atra
 
 ## 📚 Estruturas de Dados Abordadas
 
-- **Listas** (Arrays, Listas Encadeadas)
-- **Pilhas e Filas**
-- **Árvores** (Binária, AVL, Rubro-Negra)
-- **Grafos** e algoritmos relacionados
-- **Tabelas Hash**
-- **Heaps**
-- **Conjuntos e Mapas**
+- **Lista** (Estática)
+- **Pilha** (Estruturas de Dados LIFO)
 
 ## 🎯 Objetivos
 
@@ -25,6 +20,7 @@ Este projeto foi criado para facilitar o aprendizado de estruturas de dados atra
 - Exemplos de código para cada estrutura
 - Exercícios práticos
 - Comparação de desempenho entre diferentes estruturas
+- Análise de código com IA (Gemini) - Receba feedback sobre suas implementações
 
 ## 🚀 Como Começar
 
@@ -35,6 +31,14 @@ git clone https://github.com/seu-usuario/learn-data-structure-2.git
 cd learn-data-structure-2
 npm install
 ```
+
+### Configuração da API Gemini
+
+Para utilizar a funcionalidade de análise de código com IA, você precisa configurar a chave de API do Google Gemini:
+
+1. Obtenha uma chave de API no [Google AI Studio](https://aistudio.google.com/)
+2. Crie um arquivo `.env.local` na raiz do projeto
+3. Adicione sua chave de API: `GEMINI_API_KEY=sua_chave_aqui`
 
 Em seguida, execute o servidor de desenvolvimento:
 
@@ -54,6 +58,8 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador para ver 
 
 ```text
 /app
+  /api
+    /analyze-code      # API endpoint para análise de código com Gemini
   /components         # Componentes reutilizáveis
   /data-structures    # Implementações de estruturas de dados
   /visualizations     # Componentes de visualização
@@ -65,6 +71,7 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador para ver 
 
 - [Next.js](https://nextjs.org/) - Framework React
 - [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
+- [Google Gemini](https://ai.google.dev/) - IA para análise de código
 - [React Flow](https://reactflow.dev/) - Para visualizações de grafos e árvores
 - [Tailwind CSS](https://tailwindcss.com/) - Para estilização
 - [Prism.js](https://prismjs.com/) - Para highlight de código
