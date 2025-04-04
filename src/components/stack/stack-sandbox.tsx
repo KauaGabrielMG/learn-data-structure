@@ -17,257 +17,21 @@ import {
   InfoIcon,
   BookIcon,
   TerminalIcon,
+  BrainIcon,
+  Loader2Icon,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { examples } from './stack-sandbox-examples'; // Importa os exemplos de código
+import Markdown from 'react-markdown';
 
 export default function StackSandbox() {
   const [code, setCode] = useState<string>('');
   const [output, setOutput] = useState<string[]>([]);
-  const [stackState, setStackState] = useState<any[]>([]);
+  const [stackState, setStackState] = useState<unknown[]>([]);
   const [selectedExample, setSelectedExample] = useState<string>('');
-
-  // Exemplos pré-definidos
-  const examples = {
-    básico: `// Implementação básica de Pilha usando Array
-class Stack {
-  constructor() {
-    this.items = [];
-  }
-
-  push(element) {
-    this.items.push(element);
-    console.log(\`Push: \${element}\`);
-    return this.items;
-  }
-
-  pop() {
-    if (this.isEmpty()) {
-      console.log("Underflow! A pilha está vazia");
-      return "Underflow";
-    }
-    const item = this.items.pop();
-    console.log(\`Pop: \${item}\`);
-    return item;
-  }
-
-  peek() {
-    if (this.isEmpty()) {
-      console.log("A pilha está vazia");
-      return null;
-    }
-    const item = this.items[this.items.length - 1];
-    console.log(\`Peek: \${item}\`);
-    return item;
-  }
-
-  isEmpty() {
-    return this.items.length === 0;
-  }
-
-  size() {
-    console.log(\`Tamanho da pilha: \${this.items.length}\`);
-    return this.items.length;
-  }
-
-  clear() {
-    this.items = [];
-    console.log("Pilha limpa");
-    return this.items;
-  }
-}
-
-// Criando uma instância da pilha
-const stack = new Stack();
-
-// Testando operações básicas
-stack.push(10);
-stack.push(20);
-stack.push(30);
-stack.peek();
-stack.size();
-stack.pop();
-stack.size();
-stack.pop();
-stack.pop();
-stack.pop(); // Tentando remover de uma pilha vazia
-`,
-    conversãoBinária: `// Conversão de decimal para binário usando pilha
-function decimalToBinary(decNumber) {
-  const stack = [];
-  let number = decNumber;
-  let remainder;
-  let binaryString = "";
-
-  if (number === 0) {
-    return "0";
-  }
-
-  while (number > 0) {
-    remainder = Math.floor(number % 2);
-    stack.push(remainder);
-    number = Math.floor(number / 2);
-  }
-
-  console.log(\`Pilha após divisões sucessivas: [\${stack.join(", ")}]\`);
-
-  while (stack.length > 0) {
-    binaryString += stack.pop().toString();
-  }
-
-  return binaryString;
-}
-
-// Testando a função com diferentes números
-const número = 42;
-const binário = decimalToBinary(número);
-console.log(\`\${número} em binário é: \${binário}\`);
-
-const número2 = 255;
-const binário2 = decimalToBinary(número2);
-console.log(\`\${número2} em binário é: \${binário2}\`);
-`,
-    inversãoString: `// Usando pilha para inverter uma string
-function inverterString(str) {
-  // Criando uma pilha vazia
-  const stack = [];
-
-  // Adicionando cada caractere da string na pilha
-  for (let i = 0; i < str.length; i++) {
-    stack.push(str[i]);
-    console.log(\`Push: \${str[i]}\`);
-  }
-
-  // Criando uma string vazia para armazenar o resultado
-  let stringInvertida = "";
-
-  // Removendo cada caractere da pilha e adicionando-o à string invertida
-  while (stack.length > 0) {
-    const char = stack.pop();
-    console.log(\`Pop: \${char}\`);
-    stringInvertida += char;
-  }
-
-  return stringInvertida;
-}
-
-// Testando a função com diferentes strings
-const original = "Estrutura de dados";
-const invertida = inverterString(original);
-console.log(\`Original: \${original}\`);
-console.log(\`Invertida: \${invertida}\`);
-`,
-    validaçãoParênteses: `// Validação de expressão com parênteses equilibrados
-function validarParenteses(expressao) {
-  const stack = [];
-
-  // Mapeamento de parênteses de fechamento para seus parênteses de abertura correspondentes
-  const parentesesMap = {
-    ')': '(',
-    '}': '{',
-    ']': '['
-  };
-
-  // Percorrendo cada caractere na expressão
-  for (let i = 0; i < expressao.length; i++) {
-    const char = expressao[i];
-
-    // Se for um parêntese de abertura, colocamos na pilha
-    if (char === '(' || char === '{' || char === '[') {
-      stack.push(char);
-      console.log(\`Push: \${char}\`);
-    }
-    // Se for um parêntese de fechamento
-    else if (char === ')' || char === '}' || char === ']') {
-      // Se a pilha estiver vazia, não há correspondente
-      if (stack.length === 0) {
-        console.log(\`Erro: Encontrado \${char} sem abertura correspondente\`);
-        return false;
-      }
-
-      // Pop da pilha e verifica se corresponde ao parentese de fechamento
-      const top = stack.pop();
-      console.log(\`Pop e comparando: \${top} com \${char}\`);
-
-      if (parentesesMap[char] !== top) {
-        console.log(\`Erro: \${char} não corresponde a \${top}\`);
-        return false;
-      }
-    }
-  }
-
-  // Se a pilha não estiver vazia, então existem parênteses não fechados
-  if (stack.length !== 0) {
-    console.log(\`Erro: Existem parênteses não fechados: \${stack.join(', ')}\`);
-    return false;
-  }
-
-  return true;
-}
-
-// Testando com diferentes expressões
-const exp1 = "((a + b) * (c - d))";
-console.log(\`\${exp1} é válido? \${validarParenteses(exp1)}\`);
-
-const exp2 = "({[a + b]})";
-console.log(\`\${exp2} é válido? \${validarParenteses(exp2)}\`);
-
-const exp3 = "([a + b)]";
-console.log(\`\${exp3} é válido? \${validarParenteses(exp3)}\`);
-`,
-    undoRedo: `// Implementação simples de funcionalidade Undo/Redo usando pilhas
-class TextEditor {
-  constructor() {
-    this.text = "";
-    this.undoStack = [];
-    this.redoStack = [];
-  }
-
-  // Adiciona texto
-  write(newText) {
-    this.undoStack.push(this.text);
-    this.text += newText;
-    this.redoStack = [];  // Limpa a pilha de redo após uma nova operação
-    console.log(\`Texto atual: "\${this.text}"\`);
-  }
-
-  // Desfaz a última operação
-  undo() {
-    if (this.undoStack.length === 0) {
-      console.log("Nada para desfazer");
-      return;
-    }
-
-    this.redoStack.push(this.text);
-    this.text = this.undoStack.pop();
-    console.log(\`Desfez para: "\${this.text}"\`);
-  }
-
-  // Refaz a última operação desfeita
-  redo() {
-    if (this.redoStack.length === 0) {
-      console.log("Nada para refazer");
-      return;
-    }
-
-    this.undoStack.push(this.text);
-    this.text = this.redoStack.pop();
-    console.log(\`Refez para: "\${this.text}"\`);
-  }
-}
-
-// Testando o editor de texto
-const editor = new TextEditor();
-editor.write("Olá ");
-editor.write("mundo!");
-editor.undo();
-editor.redo();
-editor.write(" Como vai?");
-editor.undo();
-editor.undo();
-editor.redo();
-`,
-  };
+  const [ai_analysis, set_ai_analysis] = useState<string>('');
+  const [is_analyzing, set_is_analyzing] = useState<boolean>(false);
 
   // Atualiza o código quando o exemplo é alterado
   useEffect(() => {
@@ -319,19 +83,13 @@ editor.redo();
       // Atualiza a saída
       setOutput(customConsole.logs);
 
-      // Tenta extrair o estado da pilha (se existir no escopo global)
-      try {
-        // @ts-ignore - Acessa a variável "stack" que pode ter sido definida no código do usuário
-        if (typeof stack !== 'undefined' && stack.items) {
-          setStackState([...stack.items]);
-        }
-      } catch (e) {
-        // Ignora erros se a variável "stack" não existir
-      }
-
       toast.success('Código executado com sucesso!');
-    } catch (error: any) {
-      setOutput([`Erro: ${error.message}`]);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setOutput([`Erro: ${error.message}`]);
+      } else {
+        setOutput(['Erro desconhecido']);
+      }
       toast.error('Erro ao executar o código');
     }
   };
@@ -342,6 +100,40 @@ editor.redo();
       .writeText(code)
       .then(() => toast.success('Código copiado!'))
       .catch(() => toast.error('Não foi possível copiar o código'));
+  };
+
+  // Analisa o código usando IA (Gemini)
+  const analyzeCodeWithAI = async () => {
+    if (!code.trim()) {
+      toast.error('Digite algum código antes de analisar!');
+      return;
+    }
+
+    try {
+      set_is_analyzing(true);
+      set_ai_analysis('');
+
+      const response = await fetch('/api/analyze-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao analisar o código');
+      }
+
+      const data = await response.json();
+      set_ai_analysis(data.analysis);
+      toast.success('Análise concluída!');
+    } catch (error) {
+      toast.error('Erro ao analisar o código');
+      console.error(error);
+    } finally {
+      set_is_analyzing(false);
+    }
   };
 
   return (
@@ -387,6 +179,24 @@ editor.redo();
                 <CopyIcon className="h-3.5 w-3.5 mr-1" />
                 Copiar
               </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={analyzeCodeWithAI}
+                disabled={is_analyzing}
+              >
+                {is_analyzing ? (
+                  <>
+                    <Loader2Icon className="h-3.5 w-3.5 mr-1 animate-spin" />
+                    Analisando...
+                  </>
+                ) : (
+                  <>
+                    <BrainIcon className="h-3.5 w-3.5 mr-1" />
+                    Analisar com IA
+                  </>
+                )}
+              </Button>
               <Button onClick={runCode}>
                 <PlayIcon className="h-3.5 w-3.5 mr-1" />
                 Executar
@@ -402,6 +212,18 @@ editor.redo();
               placeholder="// Digite seu código aqui..."
             />
           </div>
+
+          {ai_analysis && (
+            <div className="border rounded-md p-4 bg-muted/20 space-y-2">
+              <div className="flex items-center gap-2">
+                <BrainIcon className="h-4 w-4" />
+                <span className="font-medium">Análise da IA</span>
+              </div>
+              <div className="text-sm whitespace-pre-wrap">
+                <Markdown>{ai_analysis}</Markdown>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -483,8 +305,9 @@ editor.redo();
             para mostrar resultados no console.
           </li>
           <li>
-            • Certifique-se de que sua pilha seja uma classe chamada "Stack" com
-            uma propriedade "items" para visualização.
+            • Certifique-se de que sua pilha seja uma classe chamada
+            &quot;Stack&quot; com uma propriedade &quot;items&quot; para
+            visualização.
           </li>
           <li>
             • Experimente modificar os exemplos para entender como as pilhas
@@ -493,6 +316,10 @@ editor.redo();
           <li>
             • Para operações de pilha, implemente: push, pop, peek, isEmpty,
             size.
+          </li>
+          <li>
+            • Para analisar seu código com IA, clique no botão &quot;Analisar
+            com IA&quot; e receba feedback sobre sua implementação.
           </li>
         </ul>
       </div>
