@@ -1,13 +1,6 @@
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from 'react';
-import { useTheme } from 'next-themes';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Interface para estruturas de dados
 interface DataStructure {
@@ -15,6 +8,7 @@ interface DataStructure {
   title: string;
   description: string;
   icon: string;
+  created: boolean;
   complexity: 'Básico' | 'Intermediário' | 'Avançado';
   lessons: number;
 }
@@ -42,6 +36,7 @@ const dataStructures: DataStructure[] = [
   {
     id: 'lists',
     title: 'Listas',
+    created: true,
     description:
       'Estrutura de dados que organiza elementos de forma sequencial com operações de inserção e remoção flexíveis.',
     icon: '📝',
@@ -51,6 +46,7 @@ const dataStructures: DataStructure[] = [
   {
     id: 'stacks',
     title: 'Pilhas',
+    created: true,
     description:
       'Estrutura de dados linear que segue o princípio LIFO (Last In, First Out).',
     icon: '📚',
@@ -60,6 +56,7 @@ const dataStructures: DataStructure[] = [
   {
     id: 'queues',
     title: 'Filas',
+    created: false,
     description:
       'Estrutura de dados linear que segue o princípio FIFO (First In, First Out).',
     icon: '📋',
@@ -69,29 +66,12 @@ const dataStructures: DataStructure[] = [
   {
     id: 'arvores',
     title: 'Árvores',
+    created: false,
     description:
       'Estrutura de dados hierárquica composta de nós que podem ter filhos.',
     icon: '🌳',
     complexity: 'Intermediário',
     lessons: 8,
-  },
-  {
-    id: 'tabelas-hash',
-    title: 'Tabelas Hash',
-    description:
-      'Estrutura que armazena dados usando função de hash para mapeamento eficiente.',
-    icon: '🗂️',
-    complexity: 'Intermediário',
-    lessons: 7,
-  },
-  {
-    id: 'grafos',
-    title: 'Grafos',
-    description:
-      'Conjunto de vértices conectados por arestas, representando relações entre objetos.',
-    icon: '🕸️',
-    complexity: 'Avançado',
-    lessons: 10,
   },
 ];
 
@@ -103,14 +83,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [currentStructure, setCurrentStructure] = useState<string | null>(null);
   const [progress, setProgress] = useState<AppContextType['progress']>({});
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
-
-  // Usar o useTheme para integrar com next-themes
-  const { setTheme } = useTheme();
-
-  // Forçar o tema claro sempre
-  useEffect(() => {
-    setTheme('light');
-  }, [setTheme]);
 
   // Função para marcar uma estrutura como concluída
   const markAsCompleted = (structureId: string) => {
@@ -145,17 +117,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   // Valor que será disponibilizado pelo contexto
-  const value = {
-    currentStructure,
-    setCurrentStructure,
-    progress,
-    markAsCompleted,
-    updateLastVisited,
-    sidebarExpanded,
-    toggleSidebar,
-    dataStructures,
-    getStructureById,
-  };
+  const value = React.useMemo(
+    () => ({
+      currentStructure,
+      setCurrentStructure,
+      progress,
+      markAsCompleted,
+      updateLastVisited,
+      sidebarExpanded,
+      toggleSidebar,
+      dataStructures,
+      getStructureById,
+    }),
+    [currentStructure, progress, sidebarExpanded],
+  );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
