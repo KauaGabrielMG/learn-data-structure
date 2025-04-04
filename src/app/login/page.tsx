@@ -1,65 +1,10 @@
 'use client';
 import { FcGoogle } from 'react-icons/fc';
-
-// Array de estruturas de dados
-const dataStructures = [
-  {
-    id: 'queues',
-    title: 'Filas',
-    description:
-      'Estrutura de dados linear que segue o princípio FIFO (First In, First Out).',
-    icon: '📋',
-    complexity: 'Básico',
-    lessons: 5,
-  },
-  {
-    id: 'stacks',
-    title: 'Pilhas',
-    description:
-      'Estrutura de dados linear que segue o princípio LIFO (Last In, First Out).',
-    icon: '📚',
-    complexity: 'Básico',
-    lessons: 4,
-  },
-  {
-    id: 'lists',
-    title: 'Listas',
-    description:
-      'Estrutura de dados linear que permite armazenar uma coleção de elementos.',
-    icon: '📝',
-    complexity: 'Básico',
-    lessons: 6,
-  },
-  {
-    id: 'trees',
-    title: 'Árvores',
-    description:
-      'Estrutura de dados hierárquica não-linear com relação pai-filho entre nós.',
-    icon: '🌳',
-    complexity: 'Intermediário',
-    lessons: 7,
-  },
-  {
-    id: 'graphs',
-    title: 'Grafos',
-    description:
-      'Estrutura de dados não-linear que consiste em vértices e arestas para conectá-los.',
-    icon: '🕸️',
-    complexity: 'Avançado',
-    lessons: 8,
-  },
-  {
-    id: 'hash-tables',
-    title: 'Tabelas Hash',
-    description:
-      'Estrutura de dados que implementa mapeamento eficiente de chave-valor.',
-    icon: '🔑',
-    complexity: 'Intermediário',
-    lessons: 5,
-  },
-];
+import { useAppContext } from '@/contexts/AppContext';
 
 export default function LoginPage() {
+  const { dataStructures } = useAppContext();
+
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-100 flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-md shadow-xl rounded-xl bg-white p-8 border border-gray-200">
