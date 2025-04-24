@@ -1,6 +1,6 @@
-import { Metadata } from "next";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
+import { Metadata } from 'next';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import {
   BookOpen,
   Code,
@@ -10,13 +10,13 @@ import {
   BookOpenCheck,
   Lightbulb,
   Zap,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+} from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/sidebar/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,19 +24,19 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 
 // Componentes de seções
-import StackTutorial from "@/components/stack/stack-tutorial";
-import StackVisualization from "@/components/stack/stack-visualization";
-import StackImplementation from "@/components/stack/stack-implementation";
-import StackSandbox from "@/components/stack/stack-sandbox";
-import StackExercises from "@/components/stack/stack-exercises";
+import StackTutorial from '@/components/stack/stack-tutorial';
+import StackVisualization from '@/components/stack/stack-visualization';
+import StackImplementation from '@/components/stack/stack-implementation';
+import StackSandbox from '@/components/stack/stack-sandbox';
+import StackExercises from '@/components/stack/stack-exercises';
 
 export const metadata: Metadata = {
-  title: "Pilhas (LIFO) | Structlive",
+  title: 'Pilhas (LIFO) | Structlive',
   description:
-    "Aprenda sobre a estrutura de dados Pilha e o conceito LIFO (Last In, First Out)",
+    'Aprenda sobre a estrutura de dados Pilha e o conceito LIFO (Last In, First Out)',
 };
 
 export default function StackPage() {
