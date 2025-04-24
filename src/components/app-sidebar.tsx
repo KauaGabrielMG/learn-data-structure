@@ -1,14 +1,10 @@
-"use client";
-import * as React from "react";
-import { CheckCircle, Minus, Plus } from "lucide-react";
-import Image from "next/image";
-import { SearchForm } from "@/components/search-form";
+'use client';
+import { SearchForm } from '@/components/search-form';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import Link from "next/link";
+} from '@/components/ui/collapsible';
 import {
   Sidebar,
   SidebarContent,
@@ -21,14 +17,18 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
-import { useAppContext } from "@/contexts/AppContext";
-import { useEffect, useState } from "react";
+} from '@/components/ui/sidebar';
+import { useAppContext } from '@/contexts/AppContext';
+import { CheckCircle, Minus, Plus } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type * as React from 'react';
+import { useEffect, useState } from 'react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { dataStructures, progress, currentStructure } = useAppContext();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>(
-    {}
+    {},
   );
 
   // Define o item atual como expandido quando a estrutura atual mudar
@@ -41,27 +41,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
   }, [currentStructure]);
 
-  // Função para alternar a expansão de um item
-  // const toggleItem = (id: string) => {
-  //   setExpandedItems((prev) => ({
-  //     ...prev,
-  //     [id]: !prev[id],
-  //   }));
-  // };
-
   // Organiza as estruturas por complexidade
   const structuresByComplexity: Record<string, typeof dataStructures> = {
     Básico: [],
   };
 
-  dataStructures.forEach((structure) => {
+  for (const structure of dataStructures) {
     structuresByComplexity[structure.complexity].push(structure);
-  });
+  }
 
   // Obtém a data da última visita formatada
   const getLastVisitedText = (structureId: string) => {
     const lastVisited = progress[structureId]?.lastVisited;
-    if (!lastVisited) return "";
+    if (!lastVisited) return '';
 
     // Formate a data relativa (hoje, ontem, ou data específica)
     const today = new Date();
@@ -69,12 +61,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     yesterday.setDate(yesterday.getDate() - 1);
 
     if (lastVisited.toDateString() === today.toDateString()) {
-      return "Visitado hoje";
-    } else if (lastVisited.toDateString() === yesterday.toDateString()) {
-      return "Visitado ontem";
-    } else {
-      return `Visitado em ${lastVisited.toLocaleDateString()}`;
+      return 'Visitado hoje';
     }
+    if (lastVisited.toDateString() === yesterday.toDateString()) {
+      return 'Visitado ontem';
+    }
+    return `Visitado em ${lastVisited.toLocaleDateString()}`;
   };
 
   return (
@@ -109,7 +101,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </h3>
           </div>
           <SidebarMenu>
-            {structuresByComplexity["Básico"].map((structure) => (
+            {structuresByComplexity.Básico.map((structure) => (
               <Collapsible
                 key={structure.id}
                 defaultOpen={
@@ -205,17 +197,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       (Object.values(progress).filter((item) => item.completed)
                         .length /
                         dataStructures.length) *
-                        100
+                        100,
                     )}%`,
                   }}
-                ></div>
+                />
               </div>
               <div className="flex justify-between text-xs text-muted-foreground mt-1">
                 <span>
                   {
                     Object.values(progress).filter((item) => item.completed)
                       .length
-                  }{" "}
+                  }{' '}
                   concluídos
                 </span>
                 <span>{dataStructures.length} total</span>
