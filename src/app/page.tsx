@@ -1,6 +1,6 @@
-"use client";
-import { FcGoogle } from "react-icons/fc";
-import Image from "next/image";
+'use client';
+import Image from 'next/image';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
   return (
@@ -27,10 +27,11 @@ export default function LoginPage() {
 
           {/* Botão de Login Google */}
           <button
+            type="button"
             className="flex items-center justify-center gap-3 w-full py-3 px-4 bg-white hover:bg-gray-50
                       border border-gray-300 rounded-md shadow-sm transition-colors
                       text-gray-700 font-medium text-base"
-            onClick={() => console.log("Login com Google")}
+            onClick={() => console.log('Login com Google')}
           >
             <FcGoogle className="h-5 w-5" />
             Entrar com Google

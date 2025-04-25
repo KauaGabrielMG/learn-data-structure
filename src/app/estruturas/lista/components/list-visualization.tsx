@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
 import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface ListNode {
   value: string;
@@ -22,7 +22,7 @@ export default function ListVisualization() {
   const maxListSize = 8;
 
   // Gerar um ID único para cada nó da lista
-  const generateId = () => Math.random().toString(36).substr(2, 9);
+  const generateId = () => Math.random().toString(36).slice(2, 11);
 
   const append = () => {
     if (!inputValue.trim()) {
@@ -66,8 +66,8 @@ export default function ListVisualization() {
       return;
     }
 
-    const index = parseInt(inputIndex);
-    if (isNaN(index) || index < 0 || index > list.length) {
+    const index = Number.parseInt(inputIndex);
+    if (Number.isNaN(index) || index < 0 || index > list.length) {
       toast.error('Índice inválido', {
         description: `O índice deve estar entre 0 e ${list.length}.`,
       });
@@ -98,8 +98,8 @@ export default function ListVisualization() {
       return;
     }
 
-    const index = parseInt(inputIndex);
-    if (isNaN(index) || index < 0 || index >= list.length) {
+    const index = Number.parseInt(inputIndex);
+    if (Number.isNaN(index) || index < 0 || index >= list.length) {
       toast.error('Índice inválido', {
         description: `O índice deve estar entre 0 e ${list.length - 1}.`,
       });
