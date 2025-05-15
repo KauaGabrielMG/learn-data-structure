@@ -1,21 +1,21 @@
-import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Inicializa a API do Google Generative AI (Gemini)
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? '');
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
 
 export async function POST(request: Request) {
   try {
     // Extrai o código do corpo da requisição
     const { code } = await request.json();
 
-    if (!code || typeof code !== 'string') {
-      return NextResponse.json({ error: 'Código inválido' }, { status: 400 });
+    if (!code || typeof code !== "string") {
+      return NextResponse.json({ error: "Código inválido" }, { status: 400 });
     }
 
     // Configura o modelo Gemini
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
+      model: "gemini-2.0-flash",
     });
 
     // Prompt para análise de código
@@ -45,10 +45,10 @@ export async function POST(request: Request) {
     // Retorna a análise
     return NextResponse.json({ analysis: text });
   } catch (error) {
-    console.error('Erro ao analisar código:', error);
+    console.error("Erro ao analisar código:", error);
     return NextResponse.json(
-      { error: 'Erro ao processar a análise' },
-      { status: 500 },
+      { error: "Erro ao processar a análise" },
+      { status: 500 }
     );
   }
 }
