@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import MonacoEditor from '@monaco-editor/react';
 import {
   BookIcon,
   BrainIcon,
@@ -203,11 +204,24 @@ export default function ListSandbox() {
           </div>
 
           <div className="relative min-h-[400px] border rounded-md">
-            <textarea
+            <MonacoEditor
+              height="400px"
+              defaultLanguage="python"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full h-full min-h-[400px] p-4 font-mono text-sm bg-muted resize-none rounded-md"
-              placeholder="// Digite seu código aqui..."
+              onChange={(value) => setCode(value ?? '')}
+              theme="vs-dark"
+              options={{
+                fontSize: 14,
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                wordWrap: 'on',
+                fontFamily: 'Fira Mono, monospace',
+                automaticLayout: true,
+                lineNumbers: 'on',
+                tabSize: 2,
+                formatOnPaste: true,
+                formatOnType: true,
+              }}
             />
           </div>
 
