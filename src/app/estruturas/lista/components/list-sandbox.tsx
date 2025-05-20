@@ -62,37 +62,7 @@ export default function ListSandbox() {
 
   // Executa o código digitado e captura o resultado
   const run_code = () => {
-    // Limpa a saída anterior
-    setOutput([]);
-    setList_state([]);
-
-    if (!code.trim()) {
-      toast.error('Digite algum código antes de executar!');
-      return;
-    }
-
-    try {
-      // Cria um console customizado para capturar logs
-      const custom_console = create_custom_console();
-
-      // Executa o código do usuário
-      const result = new Function(code)();
-
-      // Restaura o console original
-      custom_console.restore();
-
-      // Atualiza a saída
-      setOutput(custom_console.logs);
-
-      toast.success('Código executado com sucesso!');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setOutput([`Erro: ${error.message}`]);
-      } else {
-        setOutput(['Erro desconhecido']);
-      }
-      toast.error('Erro ao executar o código');
-    }
+    // ! Por enquanto, não vai ter suporte a execução de código
   };
 
   // Copia o código para a área de transferência
