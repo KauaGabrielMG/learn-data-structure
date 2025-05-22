@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
+
 // Inicializa a API do Google Generative AI (Gemini)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
 
@@ -9,14 +10,14 @@ export async function POST(request: Request) {
 		// Extrai o código do corpo da requisição
 		const { code } = await request.json();
 
-		if (!code || typeof code !== "string") {
-			return NextResponse.json({ error: "Código inválido" }, { status: 400 });
-		}
+    if (!code || typeof code !== "string") {
+      return NextResponse.json({ error: "Código inválido" }, { status: 400 });
+    }
 
-		// Configura o modelo Gemini
-		const model = genAI.getGenerativeModel({
-			model: "gemini-2.0-flash",
-		});
+    // Configura o modelo Gemini
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+    });
 
 		// Prompt para análise de código
 		const prompt = `
