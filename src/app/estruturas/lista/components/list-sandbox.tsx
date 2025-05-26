@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import MonacoEditor from '@monaco-editor/react';
 import {
   BookIcon,
   BrainIcon,
@@ -61,37 +62,7 @@ export default function ListSandbox() {
 
   // Executa o código digitado e captura o resultado
   const run_code = () => {
-    // Limpa a saída anterior
-    setOutput([]);
-    setList_state([]);
-
-    if (!code.trim()) {
-      toast.error('Digite algum código antes de executar!');
-      return;
-    }
-
-    try {
-      // Cria um console customizado para capturar logs
-      const custom_console = create_custom_console();
-
-      // Executa o código do usuário
-      const result = new Function(code)();
-
-      // Restaura o console original
-      custom_console.restore();
-
-      // Atualiza a saída
-      setOutput(custom_console.logs);
-
-      toast.success('Código executado com sucesso!');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setOutput([`Erro: ${error.message}`]);
-      } else {
-        setOutput(['Erro desconhecido']);
-      }
-      toast.error('Erro ao executar o código');
-    }
+    // ! Por enquanto, não vai ter suporte a execução de código
   };
 
   // Copia o código para a área de transferência
@@ -203,11 +174,24 @@ export default function ListSandbox() {
           </div>
 
           <div className="relative min-h-[400px] border rounded-md">
-            <textarea
+            <MonacoEditor
+              height="400px"
+              defaultLanguage="python"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full h-full min-h-[400px] p-4 font-mono text-sm bg-muted resize-none rounded-md"
-              placeholder="// Digite seu código aqui..."
+              onChange={(value) => setCode(value ?? '')}
+              theme="vs-dark"
+              options={{
+                fontSize: 14,
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                wordWrap: 'on',
+                fontFamily: 'Fira Mono, monospace',
+                automaticLayout: true,
+                lineNumbers: 'on',
+                tabSize: 2,
+                formatOnPaste: true,
+                formatOnType: true,
+              }}
             />
           </div>
 

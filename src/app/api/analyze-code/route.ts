@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from "next/server";
+
 
 // Inicializa a API do Google Generative AI (Gemini)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
 
 export async function POST(request: Request) {
-  try {
-    // Extrai o código do corpo da requisição
-    const { code } = await request.json();
+	try {
+		// Extrai o código do corpo da requisição
+		const { code } = await request.json();
 
     if (!code || typeof code !== "string") {
       return NextResponse.json({ error: "Código inválido" }, { status: 400 });
@@ -18,12 +19,12 @@ export async function POST(request: Request) {
       model: "gemini-2.0-flash",
     });
 
-    // Prompt para análise de código
-    const prompt = `
-      Analise o seguinte código JavaScript relacionado a implementação de pilha (stack).
+		// Prompt para análise de código
+		const prompt = `
+      Analise o seguinte código Python relacionado a implementação de Lista Dinâmica Simplesmente Encadeada.
 
       Código:
-      \`\`\`javascript
+      \`\`\`python
       ${code}
       \`\`\`
 
@@ -37,18 +38,18 @@ export async function POST(request: Request) {
       Mantenha sua resposta clara, concisa e focada na implementação de pilha.
     `;
 
-    // Gera a resposta da IA
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+		// Gera a resposta da IA
+		const result = await model.generateContent(prompt);
+		const response = result.response;
+		const text = response.text();
 
-    // Retorna a análise
-    return NextResponse.json({ analysis: text });
-  } catch (error) {
-    console.error("Erro ao analisar código:", error);
-    return NextResponse.json(
-      { error: "Erro ao processar a análise" },
-      { status: 500 }
-    );
-  }
+		// Retorna a análise
+		return NextResponse.json({ analysis: text });
+	} catch (error) {
+		console.error("Erro ao analisar código:", error);
+		return NextResponse.json(
+			{ error: "Erro ao processar a análise" },
+			{ status: 500 },
+		);
+	}
 }
