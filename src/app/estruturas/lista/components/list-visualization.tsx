@@ -1,251 +1,368 @@
 'use client';
+import React, { useState, useEffect } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ArrowRight } from 'lucide-react';
-import { useState } from 'react';
-import { toast } from 'sonner';
-
-interface ListNode {
+interface NodeProps {
   value: string;
-  id: string;
+  highlighted?: boolean;
+  auxPointer?: boolean;
+  primPointer?: boolean;
+  ultPointer?: boolean;
 }
 
-export default function ListVisualization() {
-  const [list, setList] = useState<ListNode[]>([]);
-  const [inputValue, setInputValue] = useState('');
-  const [inputIndex, setInputIndex] = useState('');
-  const [animatingNodeId, setAnimatingNodeId] = useState<string | null>(null);
-  const [operationText, setOperationText] = useState('');
+const ListVisualization: React.FC = () => {
+  const [step, setStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1000);
+  const [highlightedLine, setHighlightedLine] = useState<number | null>(null);
 
-  const maxListSize = 8;
+  // Código a ser animado
+  const code = `def remover_fim(self):
+  if self.quant == 1:
+    self.prim = self.ult = None
+  else:
+    aux = self.prim
+    while aux.prox != self.ult:
+      aux = aux.prox
+    aux.prox = None
+    self.ult = aux
+    self.quant -= 1`;
 
-  // Gerar um ID único para cada nó da lista
-  const generateId = () => Math.random().toString(36).slice(2, 11);
+  // Estados da lista em cada passo da animação
+  const listStates = [
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: false },
+        { value: 'D', highlighted: false },
+      ],
+      aux: null,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'Estado inicial: lista com 4 nós',
+      lineHighlight: null,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: true },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: false },
+        { value: 'D', highlighted: false },
+      ],
+      aux: 0,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'Linha 5: aux = self.prim',
+      lineHighlight: 5,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: true },
+        { value: 'C', highlighted: false },
+        { value: 'D', highlighted: false },
+      ],
+      aux: 1,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'Linha 7: aux = aux.prox (primeira iteração)',
+      lineHighlight: 7,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: true },
+        { value: 'D', highlighted: false },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'Linha 7: aux = aux.prox (segunda iteração)',
+      lineHighlight: 7,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: true },
+        { value: 'D', highlighted: false },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'aux.prox == self.ult, saindo do loop',
+      lineHighlight: 6,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: true },
+        { value: 'D', highlighted: false },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 3,
+      quant: 4,
+      description: 'Linha 8: aux.prox = None',
+      lineHighlight: 8,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: true },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 2,
+      quant: 4,
+      description: 'Removendo D da lista',
+      lineHighlight: 8,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: true },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 2,
+      quant: 4,
+      description: 'Linha 9: self.ult = aux',
+      lineHighlight: 9,
+    },
+    {
+      nodes: [
+        { value: 'A', highlighted: false },
+        { value: 'B', highlighted: false },
+        { value: 'C', highlighted: false },
+      ],
+      aux: 2,
+      prim: 0,
+      ult: 2,
+      quant: 3,
+      description: 'Linha 10: self.quant -= 1',
+      lineHighlight: 10,
+    },
+  ];
 
-  const append = () => {
-    if (!inputValue.trim()) {
-      toast.error('Entrada inválida', {
-        description: 'Por favor, insira um valor para adicionar à lista.',
-      });
-      return;
+  // Controle da animação
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isPlaying && step < listStates.length - 1) {
+      timer = setTimeout(() => {
+        setStep(step + 1);
+        setHighlightedLine(listStates[step + 1].lineHighlight);
+      }, speed);
+    } else if (step >= listStates.length - 1) {
+      setIsPlaying(false);
     }
 
-    if (list.length >= maxListSize) {
-      toast.error('Lista cheia', {
-        description: 'A lista atingiu seu tamanho máximo.',
-      });
-      return;
-    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isPlaying, step, speed]);
 
-    const newNodeId = generateId();
-    setOperationText(`Adicionando "${inputValue}" ao final da lista...`);
-    setList([...list, { value: inputValue, id: newNodeId }]);
-    setAnimatingNodeId(newNodeId);
-
-    setTimeout(() => {
-      setAnimatingNodeId(null);
-      setOperationText(`"${inputValue}" foi adicionado ao final da lista.`);
-      setInputValue('');
-    }, 1000);
+  // Reiniciar a animação
+  const resetAnimation = () => {
+    setStep(0);
+    setIsPlaying(false);
+    setHighlightedLine(null);
   };
 
-  const insert = () => {
-    if (!inputValue.trim()) {
-      toast.error('Entrada inválida', {
-        description: 'Por favor, insira um valor para adicionar à lista.',
-      });
-      return;
-    }
-
-    if (list.length >= maxListSize) {
-      toast.error('Lista cheia', {
-        description: 'A lista atingiu seu tamanho máximo.',
-      });
-      return;
-    }
-
-    const index = Number.parseInt(inputIndex);
-    if (Number.isNaN(index) || index < 0 || index > list.length) {
-      toast.error('Índice inválido', {
-        description: `O índice deve estar entre 0 e ${list.length}.`,
-      });
-      return;
-    }
-
-    const newNodeId = generateId();
-    setOperationText(`Inserindo "${inputValue}" na posição ${index}...`);
-
-    const newList = [...list];
-    newList.splice(index, 0, { value: inputValue, id: newNodeId });
-    setList(newList);
-    setAnimatingNodeId(newNodeId);
-
-    setTimeout(() => {
-      setAnimatingNodeId(null);
-      setOperationText(`"${inputValue}" foi inserido na posição ${index}.`);
-      setInputValue('');
-      setInputIndex('');
-    }, 1000);
-  };
-
-  const remove = () => {
-    if (list.length === 0) {
-      toast.error('Lista vazia', {
-        description: 'Não é possível remover de uma lista vazia.',
-      });
-      return;
-    }
-
-    const index = Number.parseInt(inputIndex);
-    if (Number.isNaN(index) || index < 0 || index >= list.length) {
-      toast.error('Índice inválido', {
-        description: `O índice deve estar entre 0 e ${list.length - 1}.`,
-      });
-      return;
-    }
-
-    const nodeToRemove = list[index];
-    setOperationText(
-      `Removendo "${nodeToRemove.value}" da posição ${index}...`,
+  // Renderizar um nó da lista
+  const Node: React.FC<NodeProps> = ({
+    value,
+    highlighted,
+    auxPointer,
+    primPointer,
+    ultPointer,
+  }) => {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="relative">
+          {auxPointer && (
+            <div className="absolute -top-8 text-blue-500 font-bold">aux</div>
+          )}
+          {primPointer && (
+            <div className="absolute -top-8 left-0 text-green-500 font-bold">
+              prim
+            </div>
+          )}
+          {ultPointer && (
+            <div className="absolute -top-8 right-0 text-red-500 font-bold">
+              ult
+            </div>
+          )}
+          <div
+            className={`flex border-2 ${
+              highlighted
+                ? 'bg-yellow-200 border-yellow-500'
+                : 'bg-white border-gray-300'
+            }`}
+          >
+            <div className="w-10 h-10 flex items-center justify-center border-r-2 border-gray-300">
+              {value}
+            </div>
+            <div className="w-10 h-10 flex items-center justify-center">→</div>
+          </div>
+        </div>
+      </div>
     );
-    setAnimatingNodeId(nodeToRemove.id);
-
-    setTimeout(() => {
-      const newList = [...list];
-      newList.splice(index, 1);
-      setList(newList);
-      setAnimatingNodeId(null);
-      setOperationText(
-        `"${nodeToRemove.value}" foi removido da posição ${index}.`,
-      );
-      setInputIndex('');
-    }, 1000);
   };
+
+  // Estado atual da animação
+  const currentState = listStates[step];
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Visualização da Lista</h3>
+    <div className="flex flex-col w-full p-4 space-y-6">
+      <h2 className="text-2xl font-bold text-center">
+        Simulação: Remover fim da lista
+      </h2>
 
-        <div className="flex flex-col space-y-2">
-          <div className="text-sm text-muted-foreground">
-            {operationText ||
-              'Utilize os controles abaixo para adicionar, inserir ou remover elementos da lista.'}
+      <div className="flex flex-col md:flex-row w-full space-y-6 md:space-y-0 md:space-x-6">
+        {/* Lado esquerdo - Código */}
+        <div className="w-full md:w-1/2 bg-gray-100 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-4">Código</h3>
+          <pre className="bg-gray-800 text-white p-4 rounded overflow-auto">
+            {code.split('\n').map((line, index) => (
+              <div
+                key={index}
+                className={`${
+                  highlightedLine === index + 1
+                    ? 'bg-yellow-500 text-black'
+                    : ''
+                }`}
+              >
+                {index + 1} {line}
+              </div>
+            ))}
+          </pre>
+        </div>
+
+        {/* Lado direito - Visualização */}
+        <div className="w-full md:w-1/2 bg-gray-100 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-4">Visualização</h3>
+          <div className="mb-4 text-center font-medium text-gray-700">
+            {currentState.description}
           </div>
-
-          <div className="bg-muted/50 border rounded-lg p-8 flex items-center justify-center min-h-[150px]">
-            {list.length > 0 ? (
-              <div className="flex items-center space-x-1">
-                {list.map((node, index) => (
-                  <div key={node.id} className="flex flex-col items-center">
-                    <div
-                      className={`
-                        w-14 h-14 border-2 rounded flex items-center justify-center text-lg font-medium
-                        ${
-                          animatingNodeId === node.id
-                            ? 'animate-pulse bg-primary/20 border-primary'
-                            : 'bg-background border-border'
-                        }
-                      `}
-                    >
-                      {node.value}
+          <div className="flex flex-col items-center space-y-8">
+            <div className="flex items-center space-x-2">
+              <span className="font-bold">quant={currentState.quant}</span>
+            </div>
+            <div className="flex items-center space-x-3">
+              {currentState.nodes.map((node, index) => (
+                <React.Fragment key={index}>
+                  <Node
+                    value={node.value}
+                    highlighted={node.highlighted}
+                    auxPointer={currentState.aux === index}
+                    primPointer={currentState.prim === index}
+                    ultPointer={currentState.ult === index}
+                  />
+                  {index < currentState.nodes.length - 1 && (
+                    <div className="w-3 h-1 bg-black"></div>
+                  )}
+                  {index === currentState.nodes.length - 1 && (
+                    <div className="flex items-center justify-center border-2 border-gray-300 w-14 h-10">
+                      None
                     </div>
-                    <div className="text-xs mt-1 text-center">{index}</div>
-                    {index < list.length - 1 && (
-                      <div className="flex items-center justify-center">
-                        <ArrowRight className="h-4 w-4 mx-1 text-muted-foreground" />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-muted-foreground">Lista vazia</div>
-            )}
-          </div>
-        </div>
-
-        <div className="bg-muted/30 rounded-lg p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="value-input">Valor</Label>
-                <Input
-                  id="value-input"
-                  placeholder="Digite um valor..."
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && append()}
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="index-input">Índice (opcional)</Label>
-                <Input
-                  id="index-input"
-                  placeholder="Para inserção/remoção em posição específica"
-                  value={inputIndex}
-                  onChange={(e) => setInputIndex(e.target.value)}
-                  type="number"
-                  min="0"
-                  max={list.length}
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-end space-y-2">
-              <Button
-                onClick={append}
-                disabled={
-                  animatingNodeId !== null || list.length >= maxListSize
-                }
-                className="w-full"
-              >
-                Adicionar ao final
-              </Button>
-              <Button
-                onClick={insert}
-                disabled={
-                  animatingNodeId !== null || list.length >= maxListSize
-                }
-                variant="outline"
-                className="w-full"
-              >
-                Inserir na posição
-              </Button>
-              <Button
-                onClick={remove}
-                disabled={animatingNodeId !== null || list.length === 0}
-                variant="destructive"
-                className="w-full"
-              >
-                Remover da posição
-              </Button>
+                  )}
+                </React.Fragment>
+              ))}
             </div>
           </div>
         </div>
+      </div>
 
-        {list.length > 0 && (
-          <div className="p-3 bg-muted rounded-lg text-sm">
-            <div className="font-medium">Estado atual da lista:</div>
-            <div className="mt-2 space-y-1">
-              <div>Tamanho: {list.length}</div>
-              <div>
-                Elementos: [
-                {list.map((node, index) => (
-                  <span key={node.id}>
-                    {index > 0 ? ', ' : ''}
-                    {node.value}
-                  </span>
-                ))}
-                ]
-              </div>
+      {/* Controles da animação */}
+      <div className="flex flex-wrap justify-center items-center gap-4 mt-6 bg-white p-4 rounded-lg shadow">
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {isPlaying ? 'Pausar' : 'Iniciar'}
+        </button>
+
+        <button
+          onClick={resetAnimation}
+          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+        >
+          Reiniciar
+        </button>
+
+        <button
+          disabled={step <= 0}
+          onClick={() => {
+            setStep(Math.max(0, step - 1));
+            setHighlightedLine(listStates[Math.max(0, step - 1)].lineHighlight);
+            setIsPlaying(false);
+          }}
+          className={`px-4 py-2 ${
+            step <= 0
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-gray-500 hover:bg-gray-600'
+          } text-white rounded`}
+        >
+          Anterior
+        </button>
+
+        <button
+          disabled={step >= listStates.length - 1}
+          onClick={() => {
+            setStep(Math.min(listStates.length - 1, step + 1));
+            setHighlightedLine(
+              listStates[Math.min(listStates.length - 1, step + 1)]
+                .lineHighlight,
+            );
+            setIsPlaying(false);
+          }}
+          className={`px-4 py-2 ${
+            step >= listStates.length - 1
+              ? 'bg-gray-300 cursor-not-allowed'
+              : 'bg-gray-500 hover:bg-gray-600'
+          } text-white rounded`}
+        >
+          Próximo
+        </button>
+
+        <div className="flex items-center">
+          <label className="mr-2">Velocidade:</label>
+          <select
+            value={speed}
+            onChange={(e) => setSpeed(Number(e.target.value))}
+            className="border rounded p-1"
+          >
+            <option value="2000">Lento</option>
+            <option value="1000">Normal</option>
+            <option value="500">Rápido</option>
+          </select>
+        </div>
+
+        <div className="w-full md:w-auto">
+          <div className="flex items-center">
+            <span className="mr-2">
+              Passo: {step + 1}/{listStates.length}
+            </span>
+            <div className="w-48 h-2 bg-gray-200 rounded-full">
+              <div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${((step + 1) / listStates.length) * 100}%` }}
+              ></div>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ListVisualization;
